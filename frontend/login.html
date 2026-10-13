@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Sign in – PeopleDesk</title>
+    </head>
+    <body>
+        <div class="auth">
+            <aside>
+                <a class="logo" href="index.html"><span>P</span>PeopleDesk</a>
+                <div>
+                    <h2>Welcome back.</h2>
+                    <p>Choose your job role and sign in to manage your team's records.</p>
+                </div>
+                <small>© Your Company</small>
+            </aside>
+            <main>
+                <form id="login-form" novalidate>
+                    <h1>Sign in</h1>
+                    <p class="sub">Select your role to continue.</p>
+                    <div id="alert" class="alert hidden" role="alert"></div>
+                    <fieldset>
+                        <legend class="label">Job role *</legend>
+                        <div class="roles">
+                            <label class="role">
+                                <input type="radio" name="role" value="admin" checked>
+                                <span>
+                                    <strong>HR Admin</strong>
+                                    <small>Manage all employee records</small>
+                                </span>
+                            </label>
+                            <label class="role">
+                                <input type="radio" name="role" value="manager">
+                                <span>
+                                    <strong>Manager</strong>
+                                    <small>View the employee directory</small>
+                                </span>
+                            </label>
+                            <label class="role">
+                                <input type="radio" name="role" value="employee">
+                                <span>
+                                    <strong>Employee</strong>
+                                    <small>View the employee directory</small>
+                                </span>
+                            </label>
+                        </div>
+                    </fieldset>
+                    <div class="form-row">
+                        <label class="label" for="email">Work email *</label>
+                        <input class="input" id="email" name="email" type="email" autocomplete="username" placeholder="name@company.com">
+                    </div>
+                    <div class="form-row">
+                        <label class="label" for="password">Password *</label>
+                        <input class="input" id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter password">
+                    </div>
+                    <button class="btn primary" id="submit" type="submit" style="width:100%">Sign in</button>
+                    <p class="hint">Demo logins after seeding: admin@company.com, manager@company.com, employee@company.com. Password: Password@123</p>
+                </form>
+            </main>
+        </div>
+        <script src="js/api.js">
+        </script><script src="js/login.js"></script>
+    </body>
+</html>

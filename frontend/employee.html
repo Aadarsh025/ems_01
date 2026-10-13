@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/roles.css">
+        <title>Directory – PeopleDesk</title>
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="container">
+                <a class="logo" href="employee.html"><span>P</span>PeopleDesk</a>
+                <div class="user-box">
+                    <span id="user-name"></span>
+                    <button class="btn" id="logout">Sign out</button>
+                </div>
+            </div>
+        </header>
+        <main class="page container">
+            <section class="profile" id="profile" aria-label="My profile">
+                <h2>My profile</h2>
+                <div><span class="k">Name</span><strong class="v" id="p-name">—</strong></div>
+                <div><span class="k">Department</span><strong class="v" id="p-dept">—</strong></div>
+                <div><span class="k">Role</span><strong class="v" id="p-role">—</strong></div>
+                <div><span class="k">Salary</span><strong class="v" id="p-salary">—</strong></div>
+                <div><span class="k">Join date</span><strong class="v" id="p-date">—</strong></div>
+            </section>
+            <div class="page-head">
+                <div>
+                    <h1>Company directory <span class="role-badge">Employee</span></h1>
+                    <p id="count">Loading...</p>
+                </div>
+            </div>
+            <p class="readonly-note">Read-only. Contact your manager or HR to change any details.</p>
+            <div class="filters">
+                <div class="grow">
+                    <label class="label" for="search">Search</label>
+                    <input class="input" id="search" type="search" placeholder="Search by name, role or department">
+                </div>
+                <div class="fixed">
+                    <label class="label" for="department">Department</label>
+                    <select class="input" id="department">
+                        <option value="">All departments</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <div id="status" class="state"></div>
+                <table id="table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th data-sort="name"><button type="button">Name <span class="arrow">↕</span></button></th>
+                            <th data-sort="department"><button type="button">Department <span class="arrow">↕</span></button></th>
+                            <th data-sort="role"><button type="button">Role <span class="arrow">↕</span></button></th>
+                            <th data-sort="joinDate"><button type="button">Join date <span class="arrow">↕</span></button></th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows"></tbody>
+                </table>
+            </div>
+            <div class="pager">
+                <span id="page-info"></span>
+                <span><button class="btn" id="prev">Previous</button>
+                    <button class="btn" id="next">Next</button>
+                </span>
+            </div>
+        </main>
+        <div id="toast" class="toast hidden" role="status"></div>
+        <script src="js/api.js"></script>
+        <script src="js/employee.js"></script>
+    </body>
+</html>

@@ -1,0 +1,12 @@
+/* Extra styles for manager.html and employee.html.
+   Load AFTER css/style.css. */
+.role-badge{display:inline-block;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;background:#E4EFE9;color:#1F4D3A;margin-left:8px;vertical-align:middle}
+.team-banner{display:flex;gap:12px;align-items:center;margin:0 0 20px;padding:12px 16px;border:1px solid #D5DED9;border-radius:10px;background:#F6FAF8;color:#46524D}
+.team-banner strong{color:#1B2420}
+.profile{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:16px;margin:0 0 24px;padding:20px;border:1px solid #D5DED9;border-radius:12px;background:#fff}
+.profile h2{grid-column:1/-1;margin:0;font-size:18px}
+.profile .k{display:block;font-size:12px;color:#6B7873;margin-bottom:2px}
+.profile .v{display:block;font-weight:500;color:#1B2420}
+.profile .muted{grid-column:1/-1;color:#6B7873;font-size:14px;margin:0}
+.readonly-note{font-size:13px;color:#6B7873;margin:0 0 12px}
+input[readonly].input{background:#F1F4F2;color:#46524D;cursor:not-allowed}

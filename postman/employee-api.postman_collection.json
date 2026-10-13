@@ -1,0 +1,68 @@
+{
+  "info": { 
+    "name": "Employee Management API", 
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json" },
+    "variable": [
+      { "key": "baseUrl", "value": "http://localhost:5000/api" },
+      { "key": "token", "value": "" },
+      { "key": "employeeId", "value": "" }
+    ],
+    "auth": { "type": "bearer", "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }] },
+    "item": [
+      { "name": "Auth", "item": [
+        { "name": "Login (admin)", 
+          "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));","pm.collectionVariables.set('token', pm.response.json().token);"] } }],
+          "request": { "auth": { "type": "noauth" }, "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@company.com\",\n  \"password\": \"Password@123\",\n  \"role\": \"admin\"\n}" },
+            "url": "{{baseUrl}}/auth/login" } },
+        { "name": "Login (wrong role) - expect 403", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('403 Forbidden', () => pm.response.to.have.status(403));"] } }],
+          "request": { "auth": { "type": "noauth" }, "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"email\": \"employee@company.com\",\n  \"password\": \"Password@123\",\n  \"role\": \"admin\"\n}" },
+            "url": "{{baseUrl}}/auth/login" } },
+        { "name": "Login (bad password) - expect 401", 
+          "event": [{ "listen": "test", 
+                     "script": { "type": "text/javascript", 
+                      "exec": ["pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"] 
+                    } 
+                      }],
+          "request": { "auth": { "type": "noauth" }, 
+                       "method": "POST", 
+                       "header": [{ "key": "Content-Type", "value": "application/json" }],
+                       "body": { "mode": "raw", "raw": "{\n  \"email\": \"admin@company.com\",\n  \"password\": \"wrong\",\n  \"role\": \"admin\"\n}" },
+                       "url": "{{baseUrl}}/auth/login" 
+                      } 
+        } 
+      ] },
+      { "name": "Employees", "item": [
+        { "name": "Create employee", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": [
+          "pm.test('201 Created', () => pm.response.to.have.status(201));",
+          "pm.collectionVariables.set('employeeId', pm.response.json()._id);"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Test User\",\n  \"department\": \"Engineering\",\n  \"role\": \"Developer\",\n  \"salary\": 500000,\n  \"joinDate\": \"2024-01-15\"\n}" },
+            "url": "{{baseUrl}}/employees" } },
+        { "name": "Create employee - invalid (expect 400)", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 Bad Request', () => pm.response.to.have.status(400));"] } }],
+          "request": { "method": "POST", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"A\",\n  \"department\": \"\",\n  \"role\": \"\",\n  \"salary\": -10,\n  \"joinDate\": \"not-a-date\"\n}" },
+            "url": "{{baseUrl}}/employees" } },
+        { "name": "Get all employees", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/employees?page=1&limit=10", "host": ["{{baseUrl}}"], "path": ["employees"], "query": [{ "key": "page", "value": "1" }, { "key": "limit", "value": "10" }] } } },
+        { "name": "Search + sort", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": { "raw": "{{baseUrl}}/employees?search=dev&department=Engineering&sortBy=salary&order=desc", "host": ["{{baseUrl}}"], "path": ["employees"],
+            "query": [{ "key": "search", "value": "dev" }, { "key": "department", "value": "Engineering" }, { "key": "sortBy", "value": "salary" }, { "key": "order", "value": "desc" }] } } },
+        { "name": "Get employee by id", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/employees/{{employeeId}}" } },
+        { "name": "Get employee - bad id (expect 400)", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('400 Bad Request', () => pm.response.to.have.status(400));"] } }],
+          "request": { "method": "GET", "url": "{{baseUrl}}/employees/123" } },
+        { "name": "Update employee", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "PUT", "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{\n  \"name\": \"Test User Updated\",\n  \"department\": \"Engineering\",\n  \"role\": \"Senior Developer\",\n  \"salary\": 650000,\n  \"joinDate\": \"2024-01-15\"\n}" },
+            "url": "{{baseUrl}}/employees/{{employeeId}}" } },
+        { "name": "Delete employee", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('200 OK', () => pm.response.to.have.status(200));"] } }],
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/employees/{{employeeId}}" } },
+        { "name": "Delete again (expect 404)", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('404 Not Found', () => pm.response.to.have.status(404));"] } }],
+          "request": { "method": "DELETE", "url": "{{baseUrl}}/employees/{{employeeId}}" } },
+        { "name": "No token (expect 401)", "event": [{ "listen": "test", "script": { "type": "text/javascript", "exec": ["pm.test('401 Unauthorized', () => pm.response.to.have.status(401));"] } }],
+          "request": { "auth": { "type": "noauth" }, "method": "GET", "url": "{{baseUrl}}/employees" } }
+      ] }
+    ]
+}

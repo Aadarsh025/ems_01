@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap">
+        <link rel="stylesheet" href="css/style.css">
+        <title>Employees – PeopleDesk</title>
+    </head>
+    <body>
+        <header class="topbar">
+            <div class="container">
+                <a class="logo" href="index.html"><span>P</span>PeopleDesk</a>
+                <div class="user-box">
+                    <span id="user-name"></span>
+                    <button class="btn" id="logout">Sign out</button>
+                </div>
+            </div>
+        </header>
+        <main class="page container">
+            <div class="page-head">
+                <div>
+                    <h1>Employees</h1>
+                    <p id="count">Loading...</p>
+                </div>
+                <button class="btn primary" id="add-btn">+ Add employee</button>
+            </div>
+            <div class="filters">
+                <div class="grow">
+                    <label class="label" for="search">Search</label>
+                    <input class="input" id="search" type="search" placeholder="Search by name, role or department">
+                </div>
+                <div class="fixed">
+                    <label class="label" for="department">Department</label>
+                    <select class="input" id="department">
+                        <option value="">All departments</option>
+                    </select>
+                </div>
+            </div>
+            <div class="table-wrap">
+                <div id="status" class="state"></div>
+                <table id="table" class="hidden">
+                    <thead>
+                        <tr>
+                            <th data-sort="name">
+                                <button type="button">Name <span class="arrow">↕</span></button>
+                            </th>
+                            <th data-sort="department">
+                                <button type="button">Department <span class="arrow">↕</span></button>
+                            </th>
+                            <th data-sort="role">
+                                <button type="button">Role <span class="arrow">↕</span></button>
+                            </th>
+                            <th data-sort="salary">
+                                <button type="button">Salary <span class="arrow">↕</span></button>
+                            </th>
+                            <th data-sort="joinDate">
+                                <button type="button">Join date <span class="arrow">↕</span></button>
+                            </th>
+                            <th class="plain" id="actions-th">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="rows"></tbody>
+                </table>
+            </div>
+            <div class="pager">
+                <span id="page-info"></span>
+                <span><button class="btn" id="prev">Previous</button> 
+                    <button class="btn" id="next">Next</button>
+                </span>
+            </div>
+        </main>
+        <dialog id="form-dialog">
+            <form id="emp-form" class="dlg" novalidate>
+                <div class="dlg-head">
+                    <h2 id="form-title">Add employee</h2>
+                    <button type="button" class="icon-btn" id="close-form" aria-label="Close">✕</button>
+                </div>
+                <div id="form-alert" class="alert hidden" role="alert"></div>
+                <div class="grid2">
+                    <div class="full">
+                        <label class="label" for="f-name">Full name *</label>
+                        <input class="input" id="f-name" name="name" maxlength="100">
+                        <div class="field-error" id="err-name"></div>
+                    </div>
+                    <div>
+                        <label class="label" for="f-dept">Department *</label>
+                        <input class="input" id="f-dept" name="department" list="dept-list" maxlength="60">
+                        <datalist id="dept-list"></datalist>
+                        <div class="field-error" id="err-department"></div>
+                    </div>
+                    <div>
+                        <label class="label" for="f-role">Role *</label>
+                        <input class="input" id="f-role" name="role" maxlength="80">
+                        <div class="field-error" id="err-role"></div>
+                    </div>
+                    <div>
+                        <label class="label" for="f-salary">Salary (₹) *</label>
+                        <input class="input" id="f-salary" name="salary" type="number" min="1" step="any">
+                        <div class="field-error" id="err-salary"></div>
+                    </div>
+                    <div>
+                        <label class="label" for="f-date">Join date *</label>
+                        <input class="input" id="f-date" name="joinDate" type="date">
+                        <div class="field-error" id="err-joinDate"></div>
+                    </div>
+                </div>
+                <div class="dlg-actions">
+                    <button type="button" class="btn" id="cancel-form">Cancel</button>
+                    <button type="submit" class="btn primary" id="save">Add employee</button>
+                </div>
+            </form>
+        </dialog>
+        <dialog id="delete-dialog">
+            <div class="dlg" role="alertdialog" aria-labelledby="del-title">
+                <h2 id="del-title" style="font-size:20px;margin-bottom:8px">Delete employee?</h2>
+                <p id="delete-text" style="color:#46524D;margin:0 0 24px"></p>
+                <div class="dlg-actions" style="margin-top:0">
+                    <button class="btn" id="cancel-delete">Cancel</button>
+                    <button class="btn danger" id="confirm-delete">Delete</button>
+                </div>
+            </div>
+        </dialog>
+        <div id="toast" class="toast hidden" role="status"></div>
+        <script src="js/api.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
